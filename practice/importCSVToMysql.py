@@ -5,19 +5,6 @@ import csv
 import logging
 import re
 
-# connection = pymysql.connect(host='localhost',
-#                       user = 'root',
-#                       password = 'root',
-#                       db = 'dbgirl',
-#                       charset = 'utf8')
-
-# with connection.cursor() as cursor:
-#   sql = 'SELECT * FROM girl'
-#   cursor.execute(sql)
-#   results = cursor.fetchall()
-#   for row in results:
-#     print(row)
-
 # 日志配置
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
