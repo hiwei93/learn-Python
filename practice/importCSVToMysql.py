@@ -50,7 +50,7 @@ connection = pymysql.connect(host = host,
                              db = dbName,
                              charset = charset)
 
-with open(r'E:\Class\imooc\Python\practice\CVSorExcelFileExecute\Construction engineering management culture shift- Is the lowest tender offer dead-.csv', 
+with open(r'E:\Class\imooc\Python\practice\CVSorExcelFileExecute\Optimalprecodingforfull-duplexbasestationsunderstronglycorrelatedself-interf.csv', 
           newline='', encoding='utf-8') as f:
   # 获取文件名
   fileFullPath = f.name;
@@ -93,14 +93,13 @@ with open(r'E:\Class\imooc\Python\practice\CVSorExcelFileExecute\Construction en
       logger.info('create table ' + fileName + " faile")
 
     # 读取csv文件中的数据，向数据库中导入数据
+    total = 0
     for row in reader:
       values = []
       i = 0
-      
-      # 读取数据并且转换数据类型
       for value in row:
         if i == 5 or i == 6 or i == 9:
-          if value == "" or re.match(r'[a-zA-Z]+', value):
+          if value == "" or re.match(r'[\sa-z]', value):
             value = 'null'
           elif i == 5 or i == 9:
             logger.info('value transfored by float is : ' + value)
@@ -114,9 +113,7 @@ with open(r'E:\Class\imooc\Python\practice\CVSorExcelFileExecute\Construction en
         values.append(value)
         i += 1
 
-      # for value in values:
-      #   print(value)
-      
+      # 向数据库写入数据
       sql = '''INSERT INTO `%s` (
               `ID`,
               `Name`,
@@ -145,5 +142,7 @@ with open(r'E:\Class\imooc\Python\practice\CVSorExcelFileExecute\Construction en
                 '%s'
               )''' % ((fileName,) + tuple(values))
       logger.info('The insert sql is: ' + sql)
-      print(cursor.execute(sql))
+      total += cursor.execute(sql)
+  logger.info('total data have ' + str(reader.line_num - 1))
+  logger.info('import date have ' + str(total))
   connection.commit()
